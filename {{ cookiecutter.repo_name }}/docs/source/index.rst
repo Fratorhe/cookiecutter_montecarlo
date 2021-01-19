@@ -3,13 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-{{ cookiecutter.project_name }} Documentation
-{{ '=' * (cookiecutter.project_name|length + ' Documentation'|length) }}
+MonteCarlo Integral VKI  Documentation
+======================================
 
 .. toctree::
    :maxdepth: 2
 
    installation
+   theory
    usage
-   release-history
-   min_versions
+   class_reference
+   troubleshoot
