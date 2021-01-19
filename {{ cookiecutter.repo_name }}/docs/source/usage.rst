@@ -6,7 +6,7 @@ Start by importing MonteCarlo Integral VKI integrator class.
 
 .. code-block:: python
 
-    from {{ cookiecutter.package_dist_name }} import MonteCarloIntegrator
+    from {{ cookiecutter.package_dir_name }} import MonteCarloIntegrator
 
 Then, we define the equation of the function :math:`f(x,y)` to be integrated. This function defines a surface. In this example, we keep it equal to 1 for simplicity.
 
