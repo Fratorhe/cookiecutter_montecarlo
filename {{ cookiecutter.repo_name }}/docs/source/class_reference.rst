@@ -2,7 +2,7 @@
 Class reference
 =================
 
-.. autoclass:: {{ cookiecutter.package_dist_name }}.MonteCarloIntegrator
+.. autoclass:: {{ cookiecutter.package_dir_name }}.MonteCarloIntegrator
     :members:
 
     .. automethod:: __init__
