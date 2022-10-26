@@ -1,14 +1,15 @@
+from __future__ import annotations
+
 import warnings
 from functools import partial
 from itertools import product, tee
+from typing import Callable
 
 import numpy as np
 import multiprocessing
 import matplotlib.pyplot as plt
 
-params = {'figure.figsize': [9, 9],
-          'text.usetex': False,
-          'font.size': 24}
+params = {"figure.figsize": [9, 9], "text.usetex": False, "font.size": 24}
 plt.style.use(params)
 
 
@@ -17,7 +18,9 @@ class MonteCarloIntegrator:
     Class to compute a 2D integral using a MonteCarlo method
     """
 
-    def __init__(self, rectangle, parallel=False, seed=False):
+    def __init__(
+        self, rectangle: list, parallel: bool = False, seed: bool | int = False
+    ):
         """
 
         Parameters
@@ -56,7 +59,7 @@ class MonteCarloIntegrator:
         return self.__func_g
 
     @g.setter
-    def g(self, func_g):
+    def g(self, func_g: Callable) -> None:
         """
         Setter for the g function. If the argument provided is not callable it will show a warning.
 
@@ -68,7 +71,7 @@ class MonteCarloIntegrator:
         if callable(func_g):
             self.__func_g = func_g
         else:
-            warnings.warn('The function g is not callable, please provide a new one.')
+            warnings.warn("The function g is not callable, please provide a new one.")
 
     @property
     def f(self):
@@ -85,7 +88,7 @@ class MonteCarloIntegrator:
         raise NotImplementedError
 
     @f.setter
-    def f(self, func_f):
+    def f(self, func_g: Callable) -> None:
         """
         Setter for the f function. If the argument provided is not callable it will show a warning.
 
@@ -98,7 +101,7 @@ class MonteCarloIntegrator:
         #### YOUR CODE GOES HERE #####
         raise NotImplementedError
 
-    def generate_points(self, n=20):
+    def generate_points(self, n: int = 20):
         """
         Function to generate the random points.
 
@@ -124,9 +127,13 @@ class MonteCarloIntegrator:
         iterator_data = zip(self.x, self.y)
         if self.parallel:
             pool = multiprocessing.Pool(processes=8)
-            f_values = pool.map(partial(self._compute_sample, f=self.f, g=self.g), iterator_data)
+            f_values = pool.map(
+                partial(self._compute_sample, f=self.f, g=self.g), iterator_data
+            )
         else:
-            f_values = list(map(partial(self._compute_sample, f=self.f, g=self.g), iterator_data))
+            f_values = list(
+                map(partial(self._compute_sample, f=self.f, g=self.g), iterator_data)
+            )
 
         ### YOUR CODE HERE
         # Steps:
@@ -144,7 +151,7 @@ class MonteCarloIntegrator:
         return self.integral
 
     @staticmethod
-    def _compute_sample(point, f, g):
+    def _compute_sample(point: tuple, f: Callable, g: Callable) -> float | None:
         """
         Computes the value of the function f in the point x, y.
         If the point is inside of g, the function returns the value of the function in f.
@@ -168,7 +175,7 @@ class MonteCarloIntegrator:
         raise NotImplementedError
 
     @staticmethod
-    def _get_nproc():
+    def _get_nproc() -> int:
         """
         Get the number of processors available for parallel computation using multiprocessing
 
@@ -180,7 +187,7 @@ class MonteCarloIntegrator:
         #### YOUR CODE GOES HERE #####
         raise NotImplementedError
 
-    def plot(self, all_random_points=False):
+    def plot(self, all_random_points: bool = False):
         """
         Function to plot the process.
         In general, it will plot the contour plot filled of f, the domain defined by g with a shadowed area and border, and the montecarlo points.
@@ -203,13 +210,15 @@ class MonteCarloIntegrator:
         # this is only for visualization, to make the graph for the course
 
         fig, ax = plt.subplots()
-        self._plot_f_g(ax=ax, filled=True, function=self.f, alpha=0.4, cmap='viridis')
-        self._plot_f_g(ax=ax, filled=False, function=self.g, alpha=1, colors='k')
-        self._plot_f_g(ax=ax, filled=True,levels=[0,1], function=self.g, alpha=0.6, cmap='jet')
-        self._plot_random_points(ax=ax,all_random_points=all_random_points)
+        self._plot_f_g(ax=ax, filled=True, function=self.f, alpha=0.4, cmap="viridis")
+        self._plot_f_g(ax=ax, filled=False, function=self.g, alpha=1, colors="k")
+        self._plot_f_g(
+            ax=ax, filled=True, levels=[0, 1], function=self.g, alpha=0.6, cmap="jet"
+        )
+        self._plot_random_points(ax=ax, all_random_points=all_random_points)
         return fig, ax
 
-    def _plot_f_g(self, function, ax, filled, **kwargs):
+    def _plot_f_g(self, function: Callable, ax, filled: bool, **kwargs):
         """Auxiliary function to plot f or g. It uses the vectorized function of numpy to be able to plot.
 
         Parameters
@@ -224,7 +233,7 @@ class MonteCarloIntegrator:
             Any kwargs that can be passed to pyplot
         """
         if function is None:
-            print('A function has not been provided...')
+            print("A function has not been provided...")
             return
 
         ## Define a x1 and y1 for plotting
@@ -238,13 +247,15 @@ class MonteCarloIntegrator:
         Y = 0
 
         # apply the function (f or g) in a vectorized manner.
-        Z = np.vectorize(function)(X, Y) # vectorize is used to properly apply the function f or g
+        Z = np.vectorize(function)(
+            X, Y
+        )  # vectorize is used to properly apply the function f or g
         if filled:
             ax.contourf(X, Y, Z, **kwargs)
         else:
-            ax.contour(X, Y, Z, [0],  **kwargs)
+            ax.contour(X, Y, Z, [0], **kwargs)
 
-    def _plot_random_points(self, ax,all_random_points,**kwargs):
+    def _plot_random_points(self, ax, all_random_points, **kwargs):
         """
         Auxiliary function to plot the random montecarlo points
 
@@ -262,11 +273,13 @@ class MonteCarloIntegrator:
         # check if the numbers have been generated
         ### YOUR CODE HERE
 
-        if (len(self.x)>3000) and (not all_random_points):
-            print('This is a lot of points...I will reduce it to 3000 for the visualization')
-            npoints = 3000 # take the first 3000 points
+        if (len(self.x) > 3000) and (not all_random_points):
+            print(
+                "This is a lot of points...I will reduce it to 3000 for the visualization"
+            )
+            npoints = 3000  # take the first 3000 points
         else:
-            npoints = None # take all the points.
+            npoints = None  # take all the points.
 
         iterator_data = zip(self.x[:npoints], self.y[:npoints])
         x, y = zip(*iterator_data)
