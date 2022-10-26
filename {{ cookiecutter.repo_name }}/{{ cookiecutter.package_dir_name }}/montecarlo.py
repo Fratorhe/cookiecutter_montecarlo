@@ -88,7 +88,7 @@ class MonteCarloIntegrator:
         raise NotImplementedError
 
     @f.setter
-    def f(self, func_g: Callable) -> None:
+    def f(self, func_f: Callable) -> None:
         """
         Setter for the f function. If the argument provided is not callable it will show a warning.
 
