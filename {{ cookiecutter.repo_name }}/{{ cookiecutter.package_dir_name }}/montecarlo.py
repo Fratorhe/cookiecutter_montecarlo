@@ -84,7 +84,7 @@ class MonteCarloIntegrator:
         User defined function f
         """
 
-        #### YOUR CODE GOES HERE #####
+        #### TODO: YOUR CODE GOES HERE #####
         raise NotImplementedError
 
     @f.setter
@@ -98,7 +98,7 @@ class MonteCarloIntegrator:
             provided by the user
         """
 
-        #### YOUR CODE GOES HERE #####
+        #### TODO: YOUR CODE GOES HERE #####
         raise NotImplementedError
 
     def generate_points(self, n: int = 20):
@@ -110,7 +110,7 @@ class MonteCarloIntegrator:
         n: int
         """
 
-        #### YOUR CODE GOES HERE #####
+        #### TODO: YOUR CODE GOES HERE #####
         raise NotImplementedError
 
     def compute_integral(self):
@@ -135,7 +135,7 @@ class MonteCarloIntegrator:
                 map(partial(self._compute_sample, f=self.f, g=self.g), iterator_data)
             )
 
-        ### YOUR CODE HERE
+        ### TODO: YOUR CODE HERE
         # Steps:
         # convert f_values to a numpy array
         # remove the None values (see _compute_sample)
@@ -171,7 +171,7 @@ class MonteCarloIntegrator:
 
         """
 
-        #### YOUR CODE GOES HERE #####
+        #### TODO: YOUR CODE GOES HERE #####
         raise NotImplementedError
 
     @staticmethod
@@ -184,7 +184,7 @@ class MonteCarloIntegrator:
         number of processors
         """
 
-        #### YOUR CODE GOES HERE #####
+        #### TODO: YOUR CODE GOES HERE #####
         raise NotImplementedError
 
     def plot(self, all_random_points: bool = False):
@@ -237,10 +237,10 @@ class MonteCarloIntegrator:
             return
 
         ## Define a x1 and y1 for plotting
-        ## YOUR CODE HERE
+        ## TODO: YOUR CODE HERE
 
         # do meshgrid to get the actual combinations of points
-        ## YOUR CODE HERE
+        ## TODO: YOUR CODE HERE
 
         # delete this when you put your code.
         X = 0
@@ -271,7 +271,7 @@ class MonteCarloIntegrator:
         """
 
         # check if the numbers have been generated
-        ### YOUR CODE HERE
+        ### TODO: YOUR CODE HERE
 
         if (len(self.x) > 3000) and (not all_random_points):
             print(
